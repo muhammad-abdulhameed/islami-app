@@ -1,0 +1,64 @@
+BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          //there is a gesture detector on every item on items that's pass index of item then send the index to on thp function
+          setState(() {
+            //in background gesture detector on item pass index to on tap on tap on item
+            selectedIndex = index;
+          });
+        },
+        backgroundColor: ColorsManger.primary,//that's only worked with fixed with shifting takes item background color
+        type: BottomNavigationBarType.fixed,//fixed the style of bottom nav bar(no change while select items)
+        items: [
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                ImagesManger.quranNavbarLogo,
+                colorFilter:
+                    ColorFilter.mode(ColorsManger.secondary, BlendMode.srcIn),
+              ),
+              label: StringManger.quran,
+              activeIcon: SvgPicture.asset(
+                ImagesManger.quranNavbarLogo,
+                colorFilter:
+                    ColorFilter.mode(ColorsManger.OffWhite, BlendMode.srcIn),
+              ),
+              backgroundColor: ColorsManger.primary),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(ImagesManger.hadithNavbarLogo),
+            label: StringManger.hadith,
+            backgroundColor: ColorsManger.primary,
+            activeIcon: SvgPicture.asset(
+              ImagesManger.hadithNavbarLogo,
+              colorFilter:
+                  ColorFilter.mode(ColorsManger.OffWhite, BlendMode.srcIn),
+            ),
+          ),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(ImagesManger.sebhaNavbarLogo),
+              backgroundColor: ColorsManger.primary,
+              label: StringManger.sebha,
+              activeIcon: SvgPicture.asset(
+                ImagesManger.sebhaNavbarLogo,
+                colorFilter:
+                    ColorFilter.mode(ColorsManger.OffWhite, BlendMode.srcIn),
+              )),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(ImagesManger.radioNavbarLogo),
+              backgroundColor: ColorsManger.primary,
+              label: StringManger.radio,
+              activeIcon: SvgPicture.asset(
+                ImagesManger.radioNavbarLogo,
+                colorFilter:
+                    ColorFilter.mode(ColorsManger.OffWhite, BlendMode.srcIn),
+              )),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(ImagesManger.timeNavbarLogo),
+              label: StringManger.time,
+              backgroundColor: ColorsManger.primary,
+              activeIcon: SvgPicture.asset(
+                ImagesManger.timeNavbarLogo,
+                colorFilter:
+                    ColorFilter.mode(ColorsManger.OffWhite, BlendMode.srcIn),
+              )),
+        ],
+      ),
