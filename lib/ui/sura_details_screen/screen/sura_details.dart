@@ -31,7 +31,7 @@ class _SuraDetailsState extends State<SuraDetails> {
       //that's to dont call load file every time build called
       loadFiles(suraModel.suraNumber);
     }
-    /* loadFiles(); if we call this function in build go throw cycle itdpendancy cause build fun called many times (SetState) and call this function every time (load files and print every setState)  */
+    /* loadFiles(); if we call this function in build go throw cycle dpendancy cause build fun called many times (SetState) and call this function every time (load files and print every setState)  */
     return Scaffold(
       backgroundColor: ColorsManger.secondary,
       appBar: AppBar(

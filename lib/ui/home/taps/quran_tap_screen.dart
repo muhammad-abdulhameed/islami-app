@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:islami/styles/assetsManger.dart';
 import 'package:islami/styles/colorManeger.dart';
+import 'package:islami/styles/reusableComponants/shared_pref.dart';
 import 'package:islami/styles/reusableComponants/textComponent.dart';
 import 'package:islami/styles/stringsManger.dart';
 import 'package:islami/ui/home/service/sura-obj-List.dart';
+import 'package:islami/ui/home/widgets/suraWidget.dart';
 import 'package:islami/ui/home/widgets/suraclass.dart';
 import 'package:islami/ui/sura_details_screen/screen/sura_details.dart';
 
@@ -21,8 +23,10 @@ class QuranTap extends StatefulWidget {
 
 class _QuranTapState extends State<QuranTap> {
   int suraIndex = 0;
+  String searchString="";
 
-  List<SuraModel> recentlySura = [];
+  List<SuraModel> recentlySura = PrefHelper.getFromList();
+  List<SuraModel> searchSura=[];
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,13 @@ class _QuranTapState extends State<QuranTap> {
                     .topCenter /*to make image little top cause column make it little down*/,
               )),
               TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchString=value;
+                    search(value.toLowerCase());
+
+                  });
+                },
                 textAlignVertical: TextAlignVertical.center,
                 /*that's to control input text align*/
                 decoration: InputDecoration(
@@ -81,6 +92,8 @@ class _QuranTapState extends State<QuranTap> {
               SizedBox(
                 height: 20,
               ),
+            if(searchString.isEmpty)///there's on case to make condition in constractor (condition with out body the con will be in just on second element only )
+            ...[///to add list in list use ...
               TextComponent(
                 text: StringManger.mostRecently,
               ),
@@ -89,89 +102,128 @@ class _QuranTapState extends State<QuranTap> {
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => Container(
-                          decoration: BoxDecoration(
-                              color: ColorsManger.primary,
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 17),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      recentlySura[index].suraNameEn,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 24,
-                                          fontFamily: StringManger.fontJanna,
-                                          color: ColorsManger.secondary),
-                                    ),
-                                    Text(recentlySura[index].suraNameAr,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 24,
-                                            fontFamily: StringManger.fontJanna,
-                                            color: ColorsManger.secondary)),
-                                    Text(recentlySura[index].versesNumber,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 14,
-                                            fontFamily: StringManger.fontJanna,
-                                            color: ColorsManger.secondary)),
-                                  ],
+                      decoration: BoxDecoration(
+                          color: ColorsManger.primary,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 17),
+                            child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  recentlySura[index].suraNameEn,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 24,
+                                      fontFamily: StringManger.fontJanna,
+                                      color: ColorsManger.secondary),
                                 ),
-                              ),
-                              Image.asset(ImagesManger.quCard)
-                            ],
+                                Text(recentlySura[index].suraNameAr,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 24,
+                                        fontFamily: StringManger.fontJanna,
+                                        color: ColorsManger.secondary)),
+                                Text(recentlySura[index].versesNumber,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                        fontFamily: StringManger.fontJanna,
+                                        color: ColorsManger.secondary)),
+                              ],
+                            ),
                           ),
-                        ),
+                          Image.asset(ImagesManger.quCard)
+                        ],
+                      ),
+                    ),
                     separatorBuilder: (context, index) => SizedBox(width: 10),
                     itemCount: recentlySura.length),
               ),
+            ],
               TextComponent(text: StringManger.surasList),
               Expanded(
                 flex: 2,
                 child: ListView.separated(
-                  itemCount: arabicQuranSuras.length,
-                  itemBuilder: (context, index2) => ListTile(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(SuraDetails.routeName,arguments: SuraModel(suraNameEn: suraList[index2].suraNameEn,
-                          suraNameAr: suraList[index2].suraNameAr,
-                          versesNumber: suraList[index2].versesNumber,
-                          suraNumber: index2+1));
-                      Timer(Duration(seconds: 2), () {
-                        if (recentlySura.isEmpty) {
-                          setState(() {
-                            recentlySura.add(SuraModel(
-                                suraNameEn: suraList[index2].suraNameEn,
-                                suraNameAr: suraList[index2].suraNameAr,
-                                suraNumber: suraList[index2].suraNumber,
-                                versesNumber: suraList[index2].versesNumber));
-                          });
-                        } else if (!recentlySura.any((element) =>
-                        element ==
-                            SuraModel(
-                                suraNameEn: suraList[index2].suraNameEn,
-                                suraNameAr: suraList[index2].suraNameAr,
-                                suraNumber: suraList[index2].suraNumber,
-                                versesNumber: suraList[index2].versesNumber))) {
-                          print(index2);
-                          setState(() {
-                            recentlySura.insert(
-                                0,
-                                SuraModel(
-                                    suraNameEn: suraList[index2].suraNameEn,
-                                    suraNameAr: suraList[index2].suraNameAr,
-                                    suraNumber: suraList[index2].suraNumber,
-                                    versesNumber: suraList[index2].versesNumber));
-                          });
-                        }
-                      });
-                      
+                  itemCount:searchString.isEmpty?suraList.length :searchSura.length ,///we make condition if search empty depends on on building sura list else search list
+                  itemBuilder: (context, index2) => SuraWidget(suraModel:searchString.isEmpty? suraList[index2]:searchSura[index2]
+                    ,onSuraTap: onSuraTap,),
+                  separatorBuilder: (context, index) => Divider(
+                      height: 30,
+                      color: ColorsManger.OffWhite,
+                      endIndent: 30,
+                      indent: 30),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  void onSuraTap(SuraModel suraModel){
+    Navigator.of(context).pushNamed(SuraDetails.routeName,arguments: SuraModel(suraNameEn: suraModel.suraNameEn,
+        suraNameAr: suraModel.suraNameAr,
+        versesNumber: suraModel.versesNumber,
+        suraNumber: suraModel.suraNumber));
 
-                      /* if(recentlySura.isEmpty){
+
+  for(int i=0;i<recentlySura.length;i++){
+    if(recentlySura[i].suraNameEn==suraModel.suraNameEn ){
+      recentlySura.removeAt(i);
+    }
+
+
+  }
+
+  setState(() {
+    recentlySura.insert(
+        0,
+        SuraModel(
+            suraNameEn: suraModel.suraNameEn,
+            suraNameAr: suraModel.suraNameAr,
+            suraNumber: suraModel.suraNumber,
+            versesNumber: suraModel.versesNumber));
+    PrefHelper.addToList(recentlySura);
+  });
+
+
+
+
+
+    /*  if (recentlySura.isEmpty) {
+        setState(() {
+          recentlySura.add(SuraModel(
+              suraNameEn: suraModel.suraNameEn,
+              suraNameAr: suraModel.suraNameAr,
+              suraNumber: suraModel.suraNumber,
+              versesNumber: suraModel.versesNumber));
+        });
+      } else if (!recentlySura.any((element) =>
+      element ==
+          SuraModel(
+              suraNameEn: suraModel.suraNameEn,
+              suraNameAr: suraModel.suraNameAr,
+              suraNumber: suraModel.suraNumber,
+              versesNumber: suraModel.versesNumber))) {
+
+        setState(() {
+          recentlySura.insert(
+              0,
+              SuraModel(
+                  suraNameEn: suraModel.suraNameEn,
+                  suraNameAr: suraModel.suraNameAr,
+                  suraNumber: suraModel.suraNumber,
+                  versesNumber: suraModel.versesNumber));
+        });
+      }*/
+
+
+
+    /* if(recentlySura.isEmpty){
                             setState(() {
                               recentlySura.add(SuraModel(
                                   suraNameEn: suraList[index2].suraNameEn,
@@ -207,38 +259,20 @@ class _QuranTapState extends State<QuranTap> {
                             }
 
                           }*/
-                    },
-                    leading: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SvgPicture.asset(ImagesManger.ayaNumLogo),
-                        TextComponent(
-                          text: "  ${suraList[index2].suraNumber} ",
-                        )
-                      ],
-                    ),
-                    title: TextComponent(text: suraList[index2].suraNameEn),
-                    subtitle: Text(
-                      "Verses ${suraList[index2].versesNumber}",
-                      style: TextStyle(
-                          fontFamily: StringManger.fontJanna,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: ColorsManger.tertiary),
-                    ),
-                    trailing: TextComponent(text: suraList[index2].suraNameAr),
-                  ),
-                  separatorBuilder: (context, index) => Divider(
-                      height: 30,
-                      color: ColorsManger.OffWhite,
-                      endIndent: 30,
-                      indent: 30),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+
+  }
+  void search(String suraName) {
+    searchSura = [];
+    ///a lower case to match search value
+    /*for (int i = 0; i < suraList.length; i++) {
+      if (suraList[i].suraNameAr.contains(suraName) ||
+          suraList[i].suraNameEn.toLowerCase().contains(suraName)) {
+        searchSura.add(suraList[i]);
+
+
+      }
+    }*/
+   searchSura= suraList.where((element)=> element.suraNameAr.contains(suraName.toLowerCase())//bug with search
+       ||element.suraNameEn.contains(suraName.toLowerCase()) ).toList();///where is making a loop on a list and return itrable of true elements cause that we assign it to search sura tohe make the return to list
   }
 }

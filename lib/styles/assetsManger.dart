@@ -24,4 +24,7 @@ class ImagesManger{
  static String bottomImageMosque ="assets/images/bottom image.png";
  static String ayaNumLogo ="assets/images/ayas num logo.svg";
  static String quCard ="assets/images/qucard.png";
+ static String hadithCardBack ="assets/images/HadithCardBackGround.png";
+ static String sebhaBody ="assets/images/SebhaBody 1.svg";
+ static String headOfSebha ="assets/images/sebha head.png";
 }
