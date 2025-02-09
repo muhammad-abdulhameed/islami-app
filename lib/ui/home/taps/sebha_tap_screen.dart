@@ -31,77 +31,79 @@ class _SebhaTapState extends State<SebhaTap> {
       child: SafeArea(
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: Column(
-              children: [
-                Image.asset(
-                  ImagesManger.appLogo,
-                ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset(
+                    ImagesManger.appLogo,
+                  ),
 
-                Container(
-                  child: GestureDetector(
-                    onTap: () {
-                      changeAngel();
-                      StringManger.tasbehCount += 1;
-                      setState(() {
-                        if (StringManger.tasbehCount == 33) {
-                          count += 1;
-                          StringManger.tasbehCount = 0;
-                          if (count == taspehList.length) {
-                            count = 0;
+                  Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        changeAngel();
+                        StringManger.tasbehCount += 1;
+                        setState(() {
+                          if (StringManger.tasbehCount == 33) {
+                            count += 1;
+                            StringManger.tasbehCount = 0;
+                            if (count == taspehList.length) {
+                              count = 0;
+                            }
+                            /*for(int i=0;i<taspehList.length;i++){
+                        StringManger.subhanAllah=taspehList[i];
+                        StringManger.tasbehCount=0;
+                        StringManger.subhanAllah=taspehList[i];
+
+                      }*/
                           }
-                          /*for(int i=0;i<taspehList.length;i++){
-                      StringManger.subhanAllah=taspehList[i];
-                      StringManger.tasbehCount=0;
-                      StringManger.subhanAllah=taspehList[i];
-
-                    }*/
-                        }
-                      });
-                    },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(margin: EdgeInsets.only(bottom: height*.50,left: width*.07),
-                          child: Image.asset(
-                            ImagesManger.headOfSebha,
-                            height: 80,
-                            width: 70,
-                            alignment: Alignment.topCenter,
-                          ),
-                        ),
-                        Transform.rotate(
-                          angle: angel,
-                          child: SvgPicture.asset(
-
-                            ImagesManger.sebhaBody,
-
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              taspehList[count],
-                              style: TextStyle(
-                                fontSize: 36,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
+                        });
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(margin: EdgeInsets.only(bottom: height*.50,left: width*.07),
+                            child: Image.asset(
+                              ImagesManger.headOfSebha,
+                              height: 80,
+                              width: 70,
+                              alignment: Alignment.topCenter,
                             ),
-                            Text(
-                              StringManger.tasbehCount.toString(),
-                              style: TextStyle(
-                                fontSize: 36,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          ),
+                          Transform.rotate(
+                            angle: angel,
+                            child: SvgPicture.asset(
+
+                              ImagesManger.sebhaBody,
+
                             ),
-                          ],
-                        )
-                      ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                taspehList[count],
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                StringManger.tasbehCount.toString(),
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )),
       ),
     );
